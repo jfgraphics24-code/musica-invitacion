@@ -1,0 +1,9 @@
+{
+  "version": "1.0",
+  "type": "rich",
+  "provider_name": "Invitación",
+  "title": "Botón de música",
+  "width": 200,
+  "height": 120,
+  "html": "<iframe src=\"https://jfgraphics24-code.github.io/musica-invitacion/\" width=\"200\" height=\"120\" frameborder=\"0\" allow=\"autoplay\"></iframe>"
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Botón de música</title>
+<meta name="description" content="Botón para reproducir la música de la invitación">
+<meta property="og:title" content="Botón de música">
+<meta property="og:description" content="Botón para reproducir la música de la invitación">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jfgraphics24-code.github.io/musica-invitacion/">
+<meta name="twitter:card" content="player">
+<meta name="twitter:title" content="Botón de música">
+<meta name="twitter:player" content="https://jfgraphics24-code.github.io/musica-invitacion/">
+<meta name="twitter:player:width" content="200">
+<meta name="twitter:player:height" content="120">
+<link rel="alternate" type="application/json+oembed" href="https://jfgraphics24-code.github.io/musica-invitacion/oembed.json" title="Botón de música">
+<style>
+  /* ====== AJUSTES RÁPIDOS ====== */
+  :root {
+    --size: 64px;       /* tamaño del icono */
+    --icon: #ffffff;    /* color del icono (play y stop) */
+    --sombra: 0.35;     /* sombra suave para que se vea sobre fondos claros: 0 = sin sombra */
+  }
+
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: transparent;
+  }
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  button {
+    all: unset;
+    box-sizing: border-box;
+    width: var(--size);
+    height: var(--size);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    background: transparent;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform .15s ease;
+  }
+  button:active { transform: scale(.92); }
+  button:focus-visible { outline: 2px solid var(--icon); outline-offset: 4px; border-radius: 8px; }
+  svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    fill: var(--icon);
+    stroke: var(--icon);
+    stroke-linejoin: round;
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,var(--sombra)));
+  }
+  .stop { display: none; }
+  button.playing .play { display: none; }
+  button.playing .stop { display: block; }
+</style>
+</head>
+<body>
+
+<!-- PEGA AQUÍ EL ENLACE DIRECTO A TU MP3 (debe terminar en .mp3) -->
+<audio id="musica" src="cancion.mp3" preload="none" loop></audio>
+
+<button id="btn" type="button" aria-label="Reproducir música" aria-pressed="false">
+  <!-- Play: triángulo con esquinas redondeadas -->
+  <svg class="play" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M8 5.5v13L19 12z" stroke-width="2.5"/>
+  </svg>
+  <!-- Pausa: dos barritas con esquinas redondeadas -->
+  <svg class="stop" viewBox="0 0 24 24" aria-hidden="true">
+    <rect x="7.5" y="5.5" width="2" height="13" rx="1" stroke-width="2"/>
+    <rect x="14.5" y="5.5" width="2" height="13" rx="1" stroke-width="2"/>
+  </svg>
+</button>
+
+<script>
+  var audio = document.getElementById('musica');
+  var btn = document.getElementById('btn');
+
+  function estado(sonando) {
+    btn.classList.toggle('playing', sonando);
+    btn.setAttribute('aria-pressed', sonando ? 'true' : 'false');
+    btn.setAttribute('aria-label', sonando ? 'Detener música' : 'Reproducir música');
+  }
+
+  btn.addEventListener('click', function () {
+    if (audio.paused) {
+      var p = audio.play();
+      if (p && p.catch) { p.catch(function () { estado(false); }); }
+    } else {
+      audio.pause();           /* pausa: al pulsar play continúa donde iba */
+    }
+  });
+
+  audio.addEventListener('play',  function () { estado(true); });
+  audio.addEventListener('pause', function () { estado(false); });
+  audio.addEventListener('ended', function () { estado(false); });
+</script>
+</body>
+</html>
